@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHEF</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="font-sans bg-gray-50 flex flex-col min-h-screen">
 
@@ -29,6 +30,21 @@
         </div>
     </header>
 
+
+    @if($errors->any())
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: "{{ $errors->first() }}", // pega a primeira mensagem
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            })
+        </script>
+    @endif
+
     <!-- Login Section -->
     <section class="bg-gray-200 py-16 flex-grow">
         <div class="max-w-7xl mx-auto px-6">
@@ -36,7 +52,6 @@
                 <h2 class="text-3xl font-semibold text-center text-red-700 mb-6">Login</h2>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
-
                     <div class="mb-6">
                         <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
                         <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-gray-300 rounded-md @error('email') border-red-600 @enderror" value="{{ old('email') }}" placeholder="Digite seu email">

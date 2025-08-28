@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,5 +49,25 @@ class RegisterController extends Controller
         User::create($request->all());
 
         return redirect()->route('login')->with('success', 'Cadastro realizado com sucesso!');
+    }
+
+     public function login(Request $request){
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required',
+        ], [
+            'email.required' => 'O Email é obrigatorio.',
+            'password.required' => 'O campo Senha é obrigatório.',
+        ]);
+
+        $credentials = $request->only('email','password');
+        $auth = Auth::attempt(['email'=> $request->email,'password'=> $request->password]);
+        
+        if(!$auth){
+           return redirect()->route('login')->withErrors(['error' => "Email ou senha inválidos!"]);
+        }else{
+            return redirect()->route("receita")->with("success","Logado com Sucesso!");
+        }
+
     }
 }
