@@ -45,14 +45,30 @@
                         @enderror
                     </div>
 
-                    <div class="mb-6">
+                    <div class="mb-6 relative">
                         <label for="password" class="block text-gray-700 font-semibold mb-2">Senha</label>
-                        <input type="password" id="password" name="password" class="w-full px-4 py-3 border border-gray-300 rounded-md @error('password') border-red-600 @enderror" placeholder="Digite sua senha">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-md pr-10 @error('password') border-red-600 @enderror"
+                            placeholder="Digite sua senha"
+                        >
+                        <button
+                            type="button"
+                            onclick="togglePassword()"
+                            class="mt-4 absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center text-gray-500"
+                        >
+                            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
+
                         @error('password')
-                            <span class="text-red-600 text-sm mt-2">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-2 block">{{ $message }}</span>
                         @enderror
                     </div>
-
                     <div class="mb-6">
                         <button type="submit" class="w-full bg-yellow-400 text-white px-6 py-3 rounded-md hover:bg-yellow-300 transition">Entrar</button>
                     </div>
@@ -97,3 +113,19 @@
 
 </body>
 </html>
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('eyeIcon');
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            // opcional: trocar ícone para "olho aberto"
+            eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.05 10.05 0 011.698-3.042m2.34-2.313A9.956 9.956 0 0112 5c4.477 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.59 2.774M15 12a3 3 0 11-6 0 3 3 0 016 0z" />`;
+        } else {
+            passwordInput.type = "password";
+            // voltar ícone original
+            eyeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />`;
+        }
+    }
+</script>

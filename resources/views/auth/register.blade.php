@@ -34,37 +34,37 @@
             <form action="{{ route('register') }}" method="POST" >
                 @csrf
 
-<div class="mb-4">
-    <label for="name" class="block text-gray-700 font-semibold">Nome Completo</label>
-    <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('name') border-red-600 @enderror" value="{{ old('name') }}">
-    @error('name')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
-</div>
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 font-semibold">Nome Completo</label>
+                    <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('name') border-red-600 @enderror" value="{{ old('name') }}">
+                    @error('name')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-<div class="mb-4">
-    <label for="email" class="block text-gray-700 font-semibold">Email</label>
-    <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('email') border-red-600 @enderror" value="{{ old('email') }}">
-    @error('email')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
-</div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 font-semibold">Email</label>
+                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('email') border-red-600 @enderror" value="{{ old('email') }}">
+                    @error('email')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-<div class="mb-4">
-    <label for="phone" class="block text-gray-700 font-semibold">Telefone</label>
-    <input type="text" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('phone') border-red-600 @enderror" value="{{ old('phone') }}">
-    @error('phone')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
-</div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700 font-semibold">Telefone</label>
+                    <input type="text" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('phone') border-red-600 @enderror" value="{{ old('phone') }}">
+                    @error('phone')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-<div class="mb-4">
-    <label for="username" class="block text-gray-700 font-semibold">Nome de Usuário</label>
-    <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('username') border-red-600 @enderror" value="{{ old('username') }}">
-    @error('username')
-        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-    @enderror
-</div>
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700 font-semibold">Nome de Usuário</label>
+                    <input type="text" id="username" name="username" class="w-full px-4 py-2 border border-gray-300 rounded-md @error('username') border-red-600 @enderror" value="{{ old('username') }}">
+                    @error('username')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div class="mb-4">
                     <label for="password" class="block text-gray-700 font-semibold">Senha</label>
