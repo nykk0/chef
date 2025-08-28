@@ -9,6 +9,9 @@ Route::get('/', [HomeController::class, 'index']);
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('register', [RegisterController::class, 'tela_cadastro'])->name('register');
 Route::get('login', [RegisterController::class, 'tela_login'])->name('login');
+Route::post('logout', [RegisterController::class, 'logout'])->name('logout');
+
+
 Route::get('receita', [ReceitaController::class, 'index'])->name('receita');
 
 

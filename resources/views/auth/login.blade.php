@@ -24,7 +24,7 @@
                 <a href="{{ route('home') }}" class="hover:text-red-600">Contato</a>
             </nav>
             <div class="flex items-center space-x-3">
-                <a href="{{ route('login') }}" class="border border-gray-800 px-4 py-2 rounded-md hover:bg-gray-800 transition">Entrar</a>
+                <a href="{{ route('login') }}" class="border border-gray-800 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white  transition">Entrar</a>
                 <a href="{{ route('register') }}" class="bg-yellow-400 text-white px-6 py-2 rounded-md hover:bg-yellow-300 transition">Cadastre-se</a>
             </div>
         </div>
@@ -37,13 +37,30 @@
                 toast: true,
                 position: 'top-end',
                 icon: 'error',
-                title: "{{ $errors->first() }}", // pega a primeira mensagem
+                title: "{{ $errors->first() }}",
                 showConfirmButton: false,
                 timer: 3000,
                 timerProgressBar: true
             })
         </script>
     @endif
+
+    @if(session('msg'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ session('msg') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            })
+        </script> 
+    @endif
+
+
+
 
     <!-- Login Section -->
     <section class="bg-gray-200 py-16 flex-grow">

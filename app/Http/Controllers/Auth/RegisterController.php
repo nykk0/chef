@@ -68,6 +68,12 @@ class RegisterController extends Controller
         }else{
             return redirect()->route("receita")->with("success","Logado com Sucesso!");
         }
+    }
 
+    public function logout(Request $request){
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('login')->with('msg', 'Usuario deslogado com Sucesso!');
     }
 }
