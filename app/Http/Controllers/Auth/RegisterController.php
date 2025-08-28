@@ -26,6 +26,19 @@ class RegisterController extends Controller
             'phone' => 'required|string|max:15',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'O campo Nome Completo é obrigatório.',
+            'name.max' => 'O campo Nome Completo deve ter no máximo 255 caracteres.',
+            'email.required' => 'O campo Email é obrigatório.',
+            'email.email' => 'O Email deve ser válido.',
+            'email.unique' => 'Este Email já está em uso.',
+            'phone.required' => 'O campo Telefone é obrigatório.',
+            'phone.max' => 'O campo Telefone deve ter no máximo 15 caracteres.',
+            'username.required' => 'O campo Nome de Usuário é obrigatório.',
+            'username.unique' => 'Este Nome de Usuário já está em uso.',
+            'password.required' => 'O campo Senha é obrigatório.',
+            'password.min' => 'A Senha deve ter no mínimo 8 caracteres.',
+            'password.confirmed' => 'A confirmação da Senha não confere.',
         ]);
 
         if ($validator->fails()) {
