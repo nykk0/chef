@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CalendarioController;
+use App\Http\Controllers\EncomendaController;
 use App\Http\Controllers\ReceitaController;
+use App\Models\Encomenda;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -40,3 +42,8 @@ Route::prefix('calendario')->group(function () {
     Route::post('/entregas', [CalendarioController::class,'getEntregas'])->name('calendario.entregas');
     Route::post('/calendario/dias-com-entrega', [CalendarioController::class, 'getDiasComEntrega'])->name('calendario.diasComEntrega');
 });
+
+Route::prefix('encomenda')->group(function () {
+    Route::get('/create', [EncomendaController::class,'create'])->name('encomenda.create');
+});
+
