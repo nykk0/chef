@@ -57,21 +57,17 @@
 <div id="overlay"
     class="fixed inset-0 bg-black bg-opacity-50 hidden z-30"></div>
 
-@push('scripts')
 <script>
     const userMenuButton = document.getElementById('userMenuButton');
     const userSubmenu = document.getElementById('userSubmenu');
 
-    if(userMenuButton && userSubmenu){
-        userMenuButton.addEventListener('click', () => {
-            userSubmenu.classList.toggle('hidden');
-        });
+    userMenuButton.addEventListener('click', () => {
+        userSubmenu.classList.toggle('hidden');
+    });
 
-        document.addEventListener('click', function(event) {
-            if (!userMenuButton.contains(event.target) && !userSubmenu.contains(event.target)) {
-                userSubmenu.classList.add('hidden');
-            }
-        });
-    }
+    document.addEventListener('click', function(event) {
+        if (!userMenuButton.contains(event.target) && !userSubmenu.contains(event.target)) {
+            userSubmenu.classList.add('hidden');
+        }
+    });
 </script>
-@endpush
