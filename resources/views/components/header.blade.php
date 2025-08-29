@@ -45,7 +45,7 @@
     <div class="mt-16 px-4">
         <nav class="space-y-2">
             <a href="{{route('receita')}}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Receitas</a>
-            <a href="#" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Inventário</a>
+            <a href="{{route('inventario.index')}}" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Inventário</a>
             <a href="#" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Encomendas</a>
             <a href="#" class="block px-4 py-2 rounded-md text-gray-700 hover:bg-gray-100">Agenda</a>
         </nav>

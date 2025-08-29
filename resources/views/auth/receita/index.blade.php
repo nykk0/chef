@@ -67,17 +67,3 @@
     </div>
 </body>
 </html>
-<script>
-    const userMenuButton = document.getElementById('userMenuButton');
-    const userSubmenu = document.getElementById('userSubmenu');
-
-    userMenuButton.addEventListener('click', () => {
-        userSubmenu.classList.toggle('hidden');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!userMenuButton.contains(event.target) && !userSubmenu.contains(event.target)) {
-            userSubmenu.classList.add('hidden');
-        }
-    });
-</script>

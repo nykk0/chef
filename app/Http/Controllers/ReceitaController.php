@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 class ReceitaController extends Controller
 {
     public function index(){
-        $user = Auth::user();
-        return view("auth.receita.index", compact("user"));
+        return view("auth.receita.index");
     }
 }
