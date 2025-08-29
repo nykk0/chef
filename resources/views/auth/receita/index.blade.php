@@ -6,13 +6,12 @@
     <title>CHEF</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="font-sans bg-gray-100">
-    
+<body class="font-sans bg-white">
+
     <x-header></x-header>
-    <!-- Container principal com sidebar e conteúdo -->
-    <div class="flex pt-10 min-h-screen"> <!-- pt-16 para compensar o header fixo -->
+    <div class="flex pt-10 min-h-screen lg:ml-64">
         <!-- Conteúdo principal -->
-        <main class="flex-1 p-10 bg-gray-100 overflow-auto">
+        <main class="flex-1 p-10 bg-white overflow-auto">
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-2xl font-bold text-red-800">Receitas</h1>
                 <a href="#"

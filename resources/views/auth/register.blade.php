@@ -141,7 +141,6 @@
     });
 
     document.addEventListener('DOMContentLoaded', function () {
-        // máscara para o campo de telefone (formato (XX) XXXXX-XXXX)
         var phoneInput = document.getElementById('phone');
         var im = new Inputmask('(99) 99999-9999'); // definindo a máscara para telefone
         im.mask(phoneInput);

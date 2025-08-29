@@ -56,7 +56,7 @@
                 timer: 3000,
                 timerProgressBar: true
             })
-        </script> 
+        </script>
     @endif
 
 
