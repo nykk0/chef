@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalendarioController;
 use App\Http\Controllers\ReceitaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -20,6 +21,7 @@ Route::get('receita', [ReceitaController::class, 'index'])->name('receita');
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 
+
 // rotas inventario
 Route::prefix('inventario')->group(function () {
     Route::get('/', [InventarioController::class, 'index'])->name('inventario.index');
@@ -28,6 +30,13 @@ Route::prefix('inventario')->group(function () {
     Route::get('/{inventario}/edit', [InventarioController::class, 'edit'])->name('inventario.edit');
     Route::put('/{inventario}', [InventarioController::class, 'update'])->name('inventario.update');
     Route::delete('/{inventario}', [InventarioController::class, 'destroy'])->name('inventario.destroy');
+    Route::patch('/{inventario}/entrada', [InventarioController::class, 'entrada'])->name('inventario.entrada');
+    Route::patch('/{inventario}/saida', [InventarioController::class, 'saida'])->name('inventario.saida');
 });
-Route::patch('/inventario/{inventario}/entrada', [InventarioController::class, 'entrada'])->name('inventario.entrada');
-Route::patch('/inventario/{inventario}/saida', [InventarioController::class, 'saida'])->name('inventario.saida');
+
+//calendario
+Route::prefix('calendario')->group(function () {
+    Route::get('/', [CalendarioController::class,'index'])->name('calendario.index');
+    Route::post('/entregas', [CalendarioController::class,'getEntregas'])->name('calendario.entregas');
+    Route::post('/calendario/dias-com-entrega', [CalendarioController::class, 'getDiasComEntrega'])->name('calendario.diasComEntrega');
+});
