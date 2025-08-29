@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHEF - Nova Receita</title>
+    <title>CHEF - Nova Encomenda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -14,7 +14,7 @@
     <div class="flex pt-10 min-h-screen lg:ml-64">
         <main class="flex-1 p-10 bg-gray-100 overflow-auto">
 
-            <h1 class="text-2xl font-bold text-red-800 mb-6">Registrar Uma Nova Receita</h1>
+            <h1 class="text-2xl font-bold text-red-800 mb-6">Registrar Uma Nova Encomenda</h1>
 
             <form action="" method="POST" class="space-y-4 bg-white p-6 shadow rounded">
                 @csrf
@@ -38,7 +38,7 @@
                                 class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                         </div>
                         <div class="flex items-center">
-                            <button type="button" class="text-red-600 font-semibold ml-2">+Adicionar ingrediente</button>
+                            <button type="button" class="text-red-600 font-semibold ml-2">+Adicionar receita</button>
                         </div>
                     </div>                    
                 </div>
@@ -53,7 +53,7 @@
                 <div class="col-span-full mt-4 flex justify-end">
                     <button type="submit"
                         class="bg-red-700 text-white px-6 py-2 rounded shadow hover:bg-red-800 transition">
-                        Registrar receita
+                        Registar Encomenda
                     </button>
                 </div>
             </form>
