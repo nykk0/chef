@@ -16,5 +16,6 @@ class Encomenda extends Model
         'data',
         'status',
         'quantidade',
+        'valor'
     ];
 }

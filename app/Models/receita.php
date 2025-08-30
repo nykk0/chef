@@ -14,6 +14,7 @@ class Receita extends Model
         'ingredientes_ids',
         'ingredientes_qtds',
         'tempo_preparo',
+        'valor',
         'modo_preparo'
     ];
 }
