@@ -1,4 +1,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://kit.fontawesome.com/048c0de736.js" crossorigin="anonymous"></script>
 <header class="w-full bg-white shadow flex justify-between items-center px-6 py-3 fixed top-0 left-0 z-50">
     <div class="flex items-center space-x-2">
         <!-- Botão Hamburguer -->

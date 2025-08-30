@@ -46,6 +46,7 @@ Route::prefix('encomenda')->group(function () {
     Route::get('/create', [EncomendaController::class,'create'])->name('encomenda.create');
     Route::post('/create', [EncomendaController::class,'store'])->name('encomenda.store');
     Route::patch('/{encomenda}/processar', [EncomendaController::class, 'processar'])->name('encomenda.processar');
+    Route::delete('/{encomenda}', [EncomendaController::class, 'destroy'])->name('encomenda.destroy');
 });
 
 Route::prefix('receita')->group(function () {

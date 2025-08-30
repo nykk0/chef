@@ -9,18 +9,40 @@ use Illuminate\Http\Request;
 class EncomendaController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $encomendas = Encomenda::all();
-
-        foreach ($encomendas as $encomenda) {
+        $query = Encomenda::query();
+    
+        // Filtro por status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+    
+        // Filtro por datas
+        if ($request->filled('data_inicial')) {
+            $query->whereDate('data', '>=', $request->data_inicial);
+        }
+    
+        if ($request->filled('data_final')) {
+            $query->whereDate('data', '<=', $request->data_final);
+        }
+    
+        // Paginação
+        $encomendas = $query->orderBy('data', 'desc')->paginate(10);
+    
+        // Mantém os filtros nos links da paginação
+        $encomendas->appends($request->all());
+    
+        // Transformar receita e quantidade em arrays
+        $encomendas->getCollection()->transform(function ($encomenda) {
             $encomenda['receita'] = array_map('trim', explode(',', $encomenda['receita']));
             $encomenda['quantidade'] = array_map('trim', explode(',', $encomenda['quantidade']));
-        }
-
+            return $encomenda;
+        });
+    
         return view('auth.encomenda.index', compact('encomendas'));
-        
     }
+
     public function create()
     {
         $receitas = Receita::all();
@@ -64,11 +86,28 @@ class EncomendaController extends Controller
         return redirect()->route('encomenda.index')->with('success', "Encomenda para {$request->nome_cliente} criada com sucesso!");
     }
 
-    public function processar(Request $request, Encomenda $encomenda)
+    public function destroy(Encomenda $encomenda)
     {
-        $encomenda->status = $request->status;
-        $encomenda->save();
-
+        $encomenda->delete();
+    
         return response()->json(['success' => true]);
+    }
+
+    public function processar(Request $request, $id)
+    {
+        $encomenda = Encomenda::findOrFail($id);
+        $status = $request->input('status'); // <- pega do body JSON
+    
+        if (!in_array($status, ['pendente','confirmado','finalizado'])) {
+            return response()->json(['success' => false], 400);
+        }
+    
+        $encomenda->status = $status;
+        $encomenda->save();
+    
+        return response()->json([
+            'success' => true,
+            'status' => $status
+        ]);
     }
 }
