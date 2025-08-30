@@ -12,36 +12,57 @@ class EncomendaController extends Controller
     public function index(Request $request)
     {
         $query = Encomenda::query();
-    
+
         // Filtro por status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
-    
+
         // Filtro por datas
         if ($request->filled('data_inicial')) {
             $query->whereDate('data', '>=', $request->data_inicial);
         }
-    
         if ($request->filled('data_final')) {
             $query->whereDate('data', '<=', $request->data_final);
         }
-    
+
         // Paginação
         $encomendas = $query->orderBy('data', 'desc')->paginate(10);
-    
+
         // Mantém os filtros nos links da paginação
         $encomendas->appends($request->all());
-    
-        // Transformar receita e quantidade em arrays
+
+        // Transformar receita e quantidade em array de itens com nome e valor
         $encomendas->getCollection()->transform(function ($encomenda) {
-            $encomenda['receita'] = array_map('trim', explode(',', $encomenda['receita']));
-            $encomenda['quantidade'] = array_map('trim', explode(',', $encomenda['quantidade']));
+            // IDs das receitas
+            $receitaIds = $encomenda->receita ? array_map('trim', explode(',', $encomenda->receita)) : [];
+            $quantidades = $encomenda->quantidade ? array_map('trim', explode(',', $encomenda->quantidade)) : [];
+
+            // Busca as receitas correspondentes
+            $receitas = Receita::whereIn('id', $receitaIds)->get()->keyBy('id');
+
+            // Monta array de itens
+            $itens = [];
+            foreach ($receitaIds as $index => $id) {
+                if (isset($receitas[$id])) {
+                    $itens[] = [
+                        'nome' => $receitas[$id]->nome,
+                        'quantidade' => $quantidades[$index] ?? 1,
+                        'valor' => $receitas[$id]->valor,
+                    ];
+                }
+            }
+
+            // Adiciona os itens na encomenda
+            $encomenda->itens = $itens;
+
             return $encomenda;
         });
-    
+
         return view('auth.encomenda.index', compact('encomendas'));
     }
+
+
 
     public function create()
     {
@@ -58,11 +79,11 @@ class EncomendaController extends Controller
             'itens.*.receita' => 'required|exists:receitas,id',
             'itens.*.quantidade' => 'required|integer|min:1',
         ], [
-            'data.required'=> 'Favor informar uma data!',
-            'nome_cliente.required'=> 'Favor informar o nome do cliente!',
-            'itens.required'=> 'Deverá haver pelo menos uma receita!',
-            'itens.*.receita.required'=> 'O campo receita é obrigatório!',
-            'itens.*.receita.exists'=> 'A receita selecionada não existe!',
+            'data.required' => 'Favor informar uma data!',
+            'nome_cliente.required' => 'Favor informar o nome do cliente!',
+            'itens.required' => 'Deverá haver pelo menos uma receita!',
+            'itens.*.receita.required' => 'O campo receita é obrigatório!',
+            'itens.*.receita.exists' => 'A receita selecionada não existe!',
             'itens.*.quantidade.required' => 'A Receita devera ter pelo menos 1 unidade!',
             'itens.*.quantidade.min' => 'A quantidade deve ser no mínimo 1!',
         ]);
@@ -79,7 +100,7 @@ class EncomendaController extends Controller
             'quantidade' => $quantidades, // qtd separada
         ]);
 
-        if(!$encomenda){
+        if (!$encomenda) {
             return redirect()->route('encomenda.create')->withErrors('error', 'Erro ao criar a encomenda!');
         }
 
@@ -89,7 +110,7 @@ class EncomendaController extends Controller
     public function destroy(Encomenda $encomenda)
     {
         $encomenda->delete();
-    
+
         return response()->json(['success' => true]);
     }
 
@@ -97,14 +118,14 @@ class EncomendaController extends Controller
     {
         $encomenda = Encomenda::findOrFail($id);
         $status = $request->input('status'); // <- pega do body JSON
-    
-        if (!in_array($status, ['pendente','confirmado','finalizado'])) {
+
+        if (!in_array($status, ['pendente', 'confirmado', 'finalizado'])) {
             return response()->json(['success' => false], 400);
         }
-    
+
         $encomenda->status = $status;
         $encomenda->save();
-    
+
         return response()->json([
             'success' => true,
             'status' => $status

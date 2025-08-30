@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -6,6 +6,7 @@
   <title>CHEF</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="https://kit.fontawesome.com/a2d9d6c9d3.js" crossorigin="anonymous"></script>
 </head>
 <body class="font-sans bg-white">
 
@@ -128,16 +129,29 @@ daysContainer.addEventListener('click', async (e) => {
     const entregas = await response.json();
     const deliveriesContainer = document.getElementById('entregas');
     deliveriesContainer.innerHTML = '';
+
     entregas.forEach(entrega => {
         // monta a lista de itens com nome e quantidade
         const itensHtml = entrega.itens.map(item => {
             return `${item.nome} (${item.quantidade})`;
         }).join('<br>');
 
+        // badge de status
+        let statusClass = "bg-gray-400";
+        let statusIcon = "fa-clock";
+        if (entrega.status === "pendente") { statusClass = "bg-yellow-500"; statusIcon = "fa-hourglass-half"; }
+        if (entrega.status === "confirmado") { statusClass = "bg-blue-600"; statusIcon = "fa-check"; }
+        if (entrega.status === "finalizado") { statusClass = "bg-green-600"; statusIcon = "fa-check-double"; }
+
         deliveriesContainer.innerHTML += `
             <div class="border rounded-lg p-4 mb-4 border-red-300 flex justify-between items-start">
                 <div>
-                    <h3 class="font-semibold text-red-800">${entrega.nome_cliente}</h3>
+                    <h3 class="font-semibold text-red-800 flex items-center gap-2">
+                        ${entrega.nome_cliente}
+                        <span class="px-2 py-1 text-white text-xs rounded-full ${statusClass} flex items-center gap-1">
+                            <i class="fa-solid ${statusIcon}"></i> ${entrega.status}
+                        </span>
+                    </h3>
                     <p class="text-gray-600 text-sm">${itensHtml}</p>
                 </div>
                 <div class="text-black font-bold text-xl">
