@@ -97,6 +97,8 @@
                             <div class="w-full md:w-32">
                                 <label class="block font-semibold text-gray-800">Qtd.</label>
                                 <input type="number" name="itens[0][quantidade]" placeholder="Porções"
+                                    min="1"
+                                    oninput="if(this.value < 1) this.value = 1"
                                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                             </div>
                         </div>
@@ -154,7 +156,8 @@
                 </div>
                 <div class="w-full md:w-32">
                     <label class="block font-semibold text-gray-800">Qtd.</label>
-                    <input type="number" name="itens[${receitaIndex}][quantidade]" placeholder="Porções"
+                    <input type="number" name="itens[${receitaIndex}][quantidade]" placeholder="Porções"  min="1"
+                    oninput="if(this.value < 1) this.value = 1"
                         class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                 </div>
             `;

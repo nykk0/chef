@@ -38,6 +38,8 @@ class EncomendaController extends Controller
             'quantidade' => $quantidades,
         ]);
 
+        dd($encomenda);
+
         if(!$encomenda){
             return redirect()->route('encomenda.create')->withErrors('error', 'Encomenda criada com sucesso!');
         }
