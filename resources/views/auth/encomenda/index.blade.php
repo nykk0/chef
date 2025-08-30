@@ -70,10 +70,8 @@
                     <select name="status" class="border rounded px-2 py-1">
                         <option value="">Todos</option>
                         <option value="pendente" {{ request('status') == 'pendente' ? 'selected' : '' }}>Pendente</option>
-                        <option value="confirmado" {{ request('status') == 'confirmado' ? 'selected' : '' }}>Confirmado
-                        </option>
-                        <option value="finalizado" {{ request('status') == 'finalizado' ? 'selected' : '' }}>Finalizado
-                        </option>
+                        <option value="confirmado" {{ request('status') == 'confirmado' ? 'selected' : '' }}>Confirmado</option>
+                        <option value="finalizado" {{ request('status') == 'finalizado' ? 'selected' : '' }}>Finalizado</option>
                     </select>
                 </div>
                 <div class="flex items-end">
@@ -97,8 +95,11 @@
                                 {{-- Status + Lixeira --}}
                                 <div class="flex items-center space-x-2">
                                     <span id="status-{{ $encomenda->id }}"
-                                        class="px-3 py-1 text-white text-sm rounded-full 
+                                        class="px-3 py-1 text-white text-sm rounded-full flex items-center gap-1
                                             {{ $encomenda->status === 'pendente' ? 'bg-yellow-500' : ($encomenda->status === 'confirmado' ? 'bg-blue-600' : 'bg-green-600') }}">
+                                        <i class="fa-solid
+                                            {{ $encomenda->status === 'pendente' ? 'fa-hourglass-half' : ($encomenda->status === 'confirmado' ? 'fa-check' : 'fa-check-double') }}">
+                                        </i>
                                         {{ ucfirst($encomenda->status) }}
                                     </span>
 
@@ -183,11 +184,13 @@
                         .then(res => res.json())
                         .then(data => {
                             if (data.success) {
-                                statusSpan.textContent = novoStatus.charAt(0).toUpperCase() + novoStatus.slice(1);
+                                // Atualiza texto e cor do badge
+                                statusSpan.textContent = '';
                                 statusSpan.classList.remove('bg-yellow-500', 'bg-blue-600', 'bg-green-600');
-                                statusSpan.classList.add(novoStatus === 'confirmado' ? 'bg-blue-600' : 'bg-green-600');
+                                statusSpan.classList.add(novoStatus === 'pendente' ? 'bg-yellow-500' : (novoStatus === 'confirmado' ? 'bg-blue-600' : 'bg-green-600'));
+                                let iconClass = novoStatus === 'pendente' ? 'fa-hourglass-half' : (novoStatus === 'confirmado' ? 'fa-check' : 'fa-check-double');
+                                statusSpan.innerHTML = `<i class="fa-solid ${iconClass}"></i> ${novoStatus.charAt(0).toUpperCase() + novoStatus.slice(1)}`;
 
-                                // seleciona apenas o botão de status, não o da lixeira
                                 const btn = document.querySelector(`#encomenda-${id} button.mt-4`);
                                 if (novoStatus === 'finalizado' && btn) {
                                     btn.remove();

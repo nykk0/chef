@@ -1,5 +1,12 @@
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://kit.fontawesome.com/048c0de736.js" crossorigin="anonymous"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEF</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://kit.fontawesome.com/048c0de736.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a2d9d6c9d3.js" crossorigin="anonymous"></script>
+</head>
+
 <header class="w-full bg-white shadow flex justify-between items-center px-6 py-3 fixed top-0 left-0 z-50">
     <div class="flex items-center space-x-2">
         <!-- Botão Hamburguer -->
