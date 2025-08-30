@@ -38,15 +38,15 @@
             });
         </script>
     @endif
-    
+
     <div class="flex pt-10 min-h-screen lg:ml-64">
-        <main class="flex-1 p-10 bg-gray-100 overflow-auto">
+        <main class="flex-1 p-10 bg-white overflow-auto">
 
             <h1 class="text-2xl font-bold text-red-800 mb-6">Registrar Uma Nova Encomenda</h1>
 
             <form action="{{ route('encomenda.store') }}" method="POST" class="space-y-6 bg-white p-6 shadow rounded">
                 @csrf
-                
+
                 <!-- Data + Nome do cliente -->
                 <div class="flex flex-col md:flex-row gap-4">
                     <div class="w-full md:w-40">
@@ -70,39 +70,23 @@
 
                 <!-- Container das receitas -->
                 <div id="receitas-container" class="space-y-4">
-                    @if(old('itens'))
-                        @foreach(old('itens') as $index => $item)
-                            <div class="flex flex-col md:flex-row gap-4 receita-item">
-                                <div class="flex-1">
-                                    <label class="block font-semibold text-gray-800">Receita</label>
-                                    <input type="text" name="itens[{{ $index }}][receita]" placeholder="Receita"
-                                        value="{{ $item['receita'] }}" 
-                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                                </div>
-                                <div class="w-full md:w-32">
-                                    <label class="block font-semibold text-gray-800">Qtd.</label>
-                                    <input type="number" name="itens[{{ $index }}][quantidade]" placeholder="Porções"
-                                        value="{{ $item['quantidade'] }}"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="flex flex-col md:flex-row gap-4 receita-item">
-                            <div class="flex-1">
-                                <label class="block font-semibold text-gray-800">Receita</label>
-                                <input type="text" name="itens[0][receita]" placeholder="Receita"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                            </div>
-                            <div class="w-full md:w-32">
-                                <label class="block font-semibold text-gray-800">Qtd.</label>
-                                <input type="number" name="itens[0][quantidade]" placeholder="Porções"
-                                    min="1"
-                                    oninput="if(this.value < 1) this.value = 1"
-                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                            </div>
+                    <div class="flex flex-col md:flex-row gap-4 receita-item">
+                        <div class="flex-1">
+                            <label class="block font-semibold text-gray-800">Receita</label>
+                            <select name="itens[0][receita]"
+                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                                <option value="">Selecione uma receita</option>
+                                @foreach($receitas as $receita)
+                                    <option value="{{ $receita->id }}">{{ $receita->nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                    @endif
+                        <div class="w-full md:w-32">
+                            <label class="block font-semibold text-gray-800">Qtd.</label>
+                            <input type="number" name="itens[0][quantidade]" oninput="atualizarValorTotal()" placeholder="Porções" min="1"
+                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Botão adicionar receita -->
@@ -111,15 +95,21 @@
                         + Adicionar receita
                     </button>
                 </div>
+                <!-- Valor Total -->
+                <div class="mb-4">
+                    <label class="block font-semibold text-gray-800">Valor Total (R$)</label>
+                    <input type="text" id="valor-total" name="valor" value="0.00" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 bg-gray-100">
+                </div>
 
                 <!-- Observações -->
                 <div>
                     <label class="block font-semibold text-gray-800">Observações</label>
                     <textarea name="observacoes"
-                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
                         rows="5">{{ old('observacoes') }}</textarea>
                 </div>
-                    
+
                 <!-- Botão salvar -->
                 <div class="flex justify-end">
                     <button type="submit"
@@ -133,6 +123,30 @@
     </div>
 
     <script>
+        const receitaValores = {
+            @foreach($receitas as $receita)
+                {{ $receita->id }}: {{ $receita->valor }},
+            @endforeach
+        };
+
+        function atualizarValorTotal() {
+            let total = 0;
+
+            document.querySelectorAll('.receita-item').forEach(item => {
+                const select = item.querySelector('select');
+                const quantidade = item.querySelector('input[type="number"]');
+                const receitaId = parseInt(select.value);
+                const qtd = parseInt(quantidade.value) || 0;
+
+                if(receitaId && receitaValores[receitaId]) {
+                    total += receitaValores[receitaId] * qtd;
+                }
+            });
+
+            document.getElementById('valor-total').value = total.toFixed(2);
+        }
+
+
         // Máscara para telefone
         const telefoneInput = document.getElementById('telefone');
         telefoneInput.addEventListener('input', function(e) {
@@ -141,8 +155,7 @@
         });
 
         // Adicionar novas receitas dinamicamente
-        let receitaIndex = {{ old('itens') ? count(old('itens')) : 1 }};
-
+        let receitaIndex = 1;
         document.getElementById('add-receita').addEventListener('click', function () {
             const container = document.getElementById('receitas-container');
 
@@ -151,13 +164,18 @@
             novaReceita.innerHTML = `
                 <div class="flex-1">
                     <label class="block font-semibold text-gray-800">Receita</label>
-                    <input type="text" name="itens[${receitaIndex}][receita]" placeholder="Receita"
+                    <select name="itens[${receitaIndex}][receita]" onchange="atualizarValorTotal()"
                         class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                        <option value="">Selecione uma receita</option>
+                        @foreach($receitas as $receita)
+                            <option value="{{ $receita->id }}">{{ $receita->nome }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="w-full md:w-32">
                     <label class="block font-semibold text-gray-800">Qtd.</label>
-                    <input type="number" name="itens[${receitaIndex}][quantidade]" placeholder="Porções"  min="1"
-                    oninput="if(this.value < 1) this.value = 1"
+                    <input type="number" name="itens[${receitaIndex}][quantidade]" placeholder="Porções" min="1"
+                        oninput="atualizarValorTotal()"
                         class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                 </div>
             `;

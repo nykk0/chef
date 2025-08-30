@@ -128,14 +128,20 @@ daysContainer.addEventListener('click', async (e) => {
     const entregas = await response.json();
     const deliveriesContainer = document.getElementById('entregas');
     deliveriesContainer.innerHTML = '';
-
     entregas.forEach(entrega => {
+        // monta a lista de itens com nome e quantidade
+        const itensHtml = entrega.itens.map(item => {
+            return `${item.nome} (${item.quantidade})`;
+        }).join('<br>');
+
         deliveriesContainer.innerHTML += `
-            <div class="border rounded-lg p-4 mb-4 border-red-300">
-                <h3 class="font-semibold text-red-800">${entrega.nome_cliente}</h3>
-                <p class="text-gray-600 text-sm">${entrega.receita}</p>
-                <div class="flex justify-between items-center mt-2">
-                    <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded">${entrega.quantidade} item(s)</span>
+            <div class="border rounded-lg p-4 mb-4 border-red-300 flex justify-between items-start">
+                <div>
+                    <h3 class="font-semibold text-red-800">${entrega.nome_cliente}</h3>
+                    <p class="text-gray-600 text-sm">${itensHtml}</p>
+                </div>
+                <div class="text-black font-bold text-xl">
+                    R$ ${entrega.valor}
                 </div>
             </div>
         `;

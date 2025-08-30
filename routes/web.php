@@ -18,8 +18,6 @@ Route::put('update', [RegisterController::class, 'updateUser'])->name('user.upda
 
 Route::post('logout', [RegisterController::class, 'logout'])->name('logout');
 
-Route::get('receita', [ReceitaController::class, 'index'])->name('receita');
-
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 
@@ -48,3 +46,12 @@ Route::prefix('encomenda')->group(function () {
     Route::post('/create', [EncomendaController::class,'store'])->name('encomenda.store');
 });
 
+Route::prefix('receita')->group(function () {
+    Route::get('/', [ReceitaController::class,'index'])->name('receita');
+    Route::get('/create', [ReceitaController::class,'create'])->name('receita.create');
+    Route::post('/store', [ReceitaController::class,'store'])->name('receita.store');
+    Route::get('/{id}/edit', [ReceitaController::class, 'edit'])->name('receita.edit');
+    Route::put('/{id}', [ReceitaController::class, 'update'])->name('receita.update');
+    Route::delete('/{id}', [ReceitaController::class, 'destroy'])->name('receita.destroy');
+
+});
