@@ -70,23 +70,32 @@
 
                 <!-- Container das receitas -->
                 <div id="receitas-container" class="space-y-4">
-                    <div class="flex flex-col md:flex-row gap-4 receita-item">
-                        <div class="flex-1">
-                            <label class="block font-semibold text-gray-800">Receita</label>
-                            <select name="itens[0][receita]"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                                <option value="">Selecione uma receita</option>
-                                @foreach($receitas as $receita)
-                                    <option value="{{ $receita->id }}">{{ $receita->nome }}</option>
-                                @endforeach
-                            </select>
+                    @php $oldItens = old('itens', [[]]); @endphp
+                
+                    @foreach($oldItens as $i => $item)
+                        <div class="flex flex-col md:flex-row gap-4 receita-item">
+                            <div class="flex-1">
+                                <label class="block font-semibold text-gray-800">Receita</label>
+                                <select name="itens[{{ $i }}][receita]" onchange="atualizarValorTotal()"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                                    <option value="">Selecione uma receita</option>
+                                    @foreach($receitas as $receita)
+                                        <option value="{{ $receita->id }}"
+                                            {{ (isset($item['receita']) && $item['receita'] == $receita->id) ? 'selected' : '' }}>
+                                            {{ $receita->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="w-full md:w-32">
+                                <label class="block font-semibold text-gray-800">Qtd.</label>
+                                <input type="number" name="itens[{{ $i }}][quantidade]"
+                                    value="{{ $item['quantidade'] ?? '' }}"
+                                    oninput="atualizarValorTotal()" placeholder="Porções" min="1"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
                         </div>
-                        <div class="w-full md:w-32">
-                            <label class="block font-semibold text-gray-800">Qtd.</label>
-                            <input type="number" name="itens[0][quantidade]" oninput="atualizarValorTotal()" placeholder="Porções" min="1"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <!-- Botão adicionar receita -->
@@ -123,11 +132,7 @@
     </div>
 
     <script>
-        const receitaValores = {
-            @foreach($receitas as $receita)
-                {{ $receita->id }}: {{ $receita->valor }},
-            @endforeach
-        };
+        const receitaValores = @json($receitas->pluck('valor','id'));
 
         function atualizarValorTotal() {
             let total = 0;
@@ -155,7 +160,7 @@
         });
 
         // Adicionar novas receitas dinamicamente
-        let receitaIndex = 1;
+        let receitaIndex = document.querySelectorAll('.receita-item').length;
         document.getElementById('add-receita').addEventListener('click', function () {
             const container = document.getElementById('receitas-container');
 
