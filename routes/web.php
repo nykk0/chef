@@ -42,8 +42,10 @@ Route::prefix('calendario')->group(function () {
 });
 
 Route::prefix('encomenda')->group(function () {
+    Route::get('/', [EncomendaController::class,'index'])->name('encomenda.index');
     Route::get('/create', [EncomendaController::class,'create'])->name('encomenda.create');
     Route::post('/create', [EncomendaController::class,'store'])->name('encomenda.store');
+    Route::patch('/{encomenda}/processar', [EncomendaController::class, 'processar'])->name('encomenda.processar');
 });
 
 Route::prefix('receita')->group(function () {

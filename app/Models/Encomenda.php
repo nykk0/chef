@@ -14,6 +14,7 @@ class Encomenda extends Model
         'telefone',
         'receita',
         'data',
+        'status',
         'quantidade',
     ];
 }

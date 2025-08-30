@@ -9,7 +9,18 @@ use Illuminate\Http\Request;
 class EncomendaController extends Controller
 {
 
+    public function index()
+    {
+        $encomendas = Encomenda::all();
 
+        foreach ($encomendas as $encomenda) {
+            $encomenda['receita'] = array_map('trim', explode(',', $encomenda['receita']));
+            $encomenda['quantidade'] = array_map('trim', explode(',', $encomenda['quantidade']));
+        }
+
+        return view('auth.encomenda.index', compact('encomendas'));
+        
+    }
     public function create()
     {
         $receitas = Receita::all();
@@ -50,6 +61,14 @@ class EncomendaController extends Controller
             return redirect()->route('encomenda.create')->withErrors('error', 'Erro ao criar a encomenda!');
         }
 
-        return redirect()->route('encomenda.create')->with('success', "Encomenda para {$request->nome_cliente} criada com sucesso!");
+        return redirect()->route('encomenda.index')->with('success', "Encomenda para {$request->nome_cliente} criada com sucesso!");
+    }
+
+    public function processar(Request $request, Encomenda $encomenda)
+    {
+        $encomenda->status = $request->status;
+        $encomenda->save();
+
+        return response()->json(['success' => true]);
     }
 }
