@@ -6,59 +6,161 @@
     <title>CHEF - Nova Encomenda</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="font-sans bg-white">
-
     <x-header></x-header>
 
+    @if($errors->any())
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: "{{ $errors->first() }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </script>
+    @endif
+
+    @if(session('success'))
+        <script>
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: "{{ session('success') }}",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        </script>
+    @endif
+    
     <div class="flex pt-10 min-h-screen lg:ml-64">
         <main class="flex-1 p-10 bg-gray-100 overflow-auto">
 
             <h1 class="text-2xl font-bold text-red-800 mb-6">Registrar Uma Nova Encomenda</h1>
 
-            <form action="" method="POST" class="space-y-4 bg-white p-6 shadow rounded">
+            <form action="{{ route('encomenda.store') }}" method="POST" class="space-y-6 bg-white p-6 shadow rounded">
                 @csrf
-
-                <div>
-                    <label class="block font-semibold text-gray-800">Nome do Cliente</label>
-                    <input type="text" name="nome_cliente" placeholder="Nome do Cliente" value="{{ old('nome_cliente') }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block font-semibold text-gray-800">Receitas</label>
-                        <input type="text" name="receitas[]" placeholder="Receitas" value="{{ old('receitas.0') }}"
+                
+                <!-- Data + Nome do cliente -->
+                <div class="flex flex-col md:flex-row gap-4">
+                    <div class="w-full md:w-40">
+                        <label class="block font-semibold text-gray-800">Data de Entrega</label>
+                        <input type="date" name="data" value="{{ old('data') }}"
                             class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
                     </div>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <label class="block font-semibold text-gray-800">Qtd.</label>
-                            <input type="number" name="quantidade" placeholder="Porções" value="{{ old('quantidade') }}"
-                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
-                        </div>
-                        <div class="flex items-center">
-                            <button type="button" class="text-red-600 font-semibold ml-2">+Adicionar receita</button>
-                        </div>
-                    </div>                    
+                    <div class="w-full md:w-40">
+                        <label class="block font-semibold text-gray-800">Telefone</label>
+                        <input type="text" name="telefone" id="telefone" value="{{ old('telefone') }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500"
+                            placeholder="(99) 99999-9999">
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="block font-semibold text-gray-800">Nome do Cliente</label>
+                        <input type="text" name="nome_cliente" placeholder="Nome do Cliente" value="{{ old('nome_cliente') }}"
+                            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    </div>
                 </div>
 
-                <div class="col-span-3">
+                <!-- Container das receitas -->
+                <div id="receitas-container" class="space-y-4">
+                    @if(old('itens'))
+                        @foreach(old('itens') as $index => $item)
+                            <div class="flex flex-col md:flex-row gap-4 receita-item">
+                                <div class="flex-1">
+                                    <label class="block font-semibold text-gray-800">Receita</label>
+                                    <input type="text" name="itens[{{ $index }}][receita]" placeholder="Receita"
+                                        value="{{ $item['receita'] }}" 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                                </div>
+                                <div class="w-full md:w-32">
+                                    <label class="block font-semibold text-gray-800">Qtd.</label>
+                                    <input type="number" name="itens[{{ $index }}][quantidade]" placeholder="Porções"
+                                        value="{{ $item['quantidade'] }}"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="flex flex-col md:flex-row gap-4 receita-item">
+                            <div class="flex-1">
+                                <label class="block font-semibold text-gray-800">Receita</label>
+                                <input type="text" name="itens[0][receita]" placeholder="Receita"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                            <div class="w-full md:w-32">
+                                <label class="block font-semibold text-gray-800">Qtd.</label>
+                                <input type="number" name="itens[0][quantidade]" placeholder="Porções"
+                                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Botão adicionar receita -->
+                <div class="flex">
+                    <button type="button" id="add-receita" class="text-red-600 font-semibold mt-2">
+                        + Adicionar receita
+                    </button>
+                </div>
+
+                <!-- Observações -->
+                <div>
                     <label class="block font-semibold text-gray-800">Observações</label>
                     <textarea name="observacoes"
-                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" 
-                    rows="5">{{ old('observacoes') }}</textarea>
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500" 
+                        rows="5">{{ old('observacoes') }}</textarea>
                 </div>
                     
-                <div class="col-span-full mt-4 flex justify-end">
+                <!-- Botão salvar -->
+                <div class="flex justify-end">
                     <button type="submit"
                         class="bg-red-700 text-white px-6 py-2 rounded shadow hover:bg-red-800 transition">
-                        Registar Encomenda
+                        Registrar Encomenda
                     </button>
                 </div>
             </form>
 
         </main>
     </div>
+
+    <script>
+        // Máscara para telefone
+        const telefoneInput = document.getElementById('telefone');
+        telefoneInput.addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+            e.target.value = !x[2] ? x[1] : `(${x[1]}) ${x[2]}${x[3] ? '-' + x[3] : ''}`;
+        });
+
+        // Adicionar novas receitas dinamicamente
+        let receitaIndex = {{ old('itens') ? count(old('itens')) : 1 }};
+
+        document.getElementById('add-receita').addEventListener('click', function () {
+            const container = document.getElementById('receitas-container');
+
+            const novaReceita = document.createElement('div');
+            novaReceita.classList.add('flex', 'flex-col', 'md:flex-row', 'gap-4', 'receita-item', 'mt-2');
+            novaReceita.innerHTML = `
+                <div class="flex-1">
+                    <label class="block font-semibold text-gray-800">Receita</label>
+                    <input type="text" name="itens[${receitaIndex}][receita]" placeholder="Receita"
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+                <div class="w-full md:w-32">
+                    <label class="block font-semibold text-gray-800">Qtd.</label>
+                    <input type="number" name="itens[${receitaIndex}][quantidade]" placeholder="Porções"
+                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                </div>
+            `;
+            container.appendChild(novaReceita);
+            receitaIndex++;
+        });
+    </script>
 </body>
 </html>

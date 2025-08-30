@@ -45,5 +45,6 @@ Route::prefix('calendario')->group(function () {
 
 Route::prefix('encomenda')->group(function () {
     Route::get('/create', [EncomendaController::class,'create'])->name('encomenda.create');
+    Route::post('/create', [EncomendaController::class,'store'])->name('encomenda.store');
 });
 

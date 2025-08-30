@@ -13,6 +13,7 @@ class Encomenda extends Model
         'nome_cliente',
         'telefone',
         'receita',
+        'data',
         'quantidade',
     ];
 }
