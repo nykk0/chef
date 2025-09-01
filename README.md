@@ -17,21 +17,28 @@
 Para ter o projeto na maquina é necessário acessar a pasta onde deseja ter o projeto e rodar: <br>
  `git clone https://github.com/nykk0/chef.git`
 
-Logo após acessar a pasta ` cd .\chef\`
+Logo após, acessar a pasta ` cd .\chef\`
 E executar o comando `composer update`
 
-com isso feito iremos configurar o nosso ambiente com o aquivo pré montado "*.env.example*" iremos copia-lo e gerar o *.env* com o comando `copy .env.example .env`.
+com isso feito iremos configurar o nosso ambiente com o aquivo pré montado "*.env.example*". Iremos copia-lo e gerar o *.env* com o comando `copy .env.example .env`.
 
 Também é necessario gerar a chave da aplicação para que possamos executa-la.
 `php artisan key:generate`
 
-Após configurarmos o nosso ambiente e instalar as dependencias necessarias iremos gerar o nosso banco de dados com o comando `php artisan migrate`
+#### *Para a proxima etapa é necessario ter certeza de que o Wamp, Xamp ou Mysql Server esteja sendo executado corretamente*
+
+Após configurarmos o nosso ambiente e instalar as dependencias necessarias,iremos gerar o nosso banco de dados com o comando `php artisan migrate`
+
+Agora iremos executar a nossa aplicação com o comando `php artisan serve`.
+
+ele irá mostrar o link de onde sua aplicação estará rodando.Sendo o mais comum: [http://127.0.0.1:8000].
+
+#### *DICA: é possivel acessar tambem clicando com CRTL + botão direito do mouse em cima do link que aparece no CMD*
+<br>
+<br>
 
 
-
-
-
-## FUNCIONALIDADES
+# FUNCIONALIDADES
 
 ### USUÁRIOS
 * Cadastro de usuários  
