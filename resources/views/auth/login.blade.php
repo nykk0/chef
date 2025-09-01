@@ -13,7 +13,7 @@
     <header class="bg-white text-gray-800 shadow-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
             <a href="{{ route('home') }}" class="flex items-center space-x-2">
-                <span class="font-extrabold text-xl text-red-600">LOGO</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 lucide lucide-chef-hat h-8 w-8 text-primary" data-lov-id="src/components/NavBar.tsx:21:14" data-lov-name="ChefHat" data-component-path="src/components/NavBar.tsx" data-component-line="21" data-component-file="NavBar.tsx" data-component-name="ChefHat" data-component-content="%7B%22className%22%3A%22h-8%20w-8%20text-primary%22%7D"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"></path><path d="M6 17h12"></path></svg>
                 <span class="font-semibold text-xl text-red-600">CHEF</span>
             </a>
             <nav class="hidden md:flex space-x-6 text-lg font-medium">
@@ -112,8 +112,8 @@
     <!-- Footer -->
     <footer class="bg-red-600 text-white pt-12 pb-6 mt-auto">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div>
-                <span class="font-bold text-2xl">LOGO</span>
+            <div class="flex gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white-600 lucide lucide-chef-hat h-8 w-8 text-primary" data-lov-id="src/components/NavBar.tsx:21:14" data-lov-name="ChefHat" data-component-path="src/components/NavBar.tsx" data-component-line="21" data-component-file="NavBar.tsx" data-component-name="ChefHat" data-component-content="%7B%22className%22%3A%22h-8%20w-8%20text-primary%22%7D"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"></path><path d="M6 17h12"></path></svg>
                 <span class="font-bold text-2xl text-yellow-400"> CHEF</span>
             </div>
             <div>
