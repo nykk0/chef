@@ -1,61 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# <p align="center">CHEF</p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Participantes
+* #### Nome do aluno 1 - Matrícula: 000000000  
+* #### Nome do aluno 2 - Matrícula: 000000000  
+* #### Nome do aluno 3 - Matrícula: 000000000  
+* #### Nome do aluno 5 - Matrícula: 000000000  
+* #### Nome do aluno 6 - Matrícula: 000000000  
 
-## About Laravel
+## INSTRUÇÕES DE COMO EXECUTAR O PROJETO
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+* Necessário ter o PHP 8.0^
+* Baixar o Wamp, Xamp ou ter o Mysql server instalado
+* Baixar o composer para o PHP 8.0^
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Comandos
+Para ter o projeto na maquina é necessário acessar a pasta onde deseja ter o projeto e rodar: <br>
+ `git clone https://github.com/nykk0/chef.git`
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Logo após, acessar a pasta ` cd .\chef\`
+E executar o comando `composer update`
 
-## Learning Laravel
+com isso feito iremos configurar o nosso ambiente com o aquivo pré montado "*.env.example*". Iremos copia-lo e gerar o *.env* com o comando `copy .env.example .env`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Também é necessario gerar a chave da aplicação para que possamos executa-la.
+`php artisan key:generate`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### *Para a proxima etapa é necessario ter certeza de que o Wamp, Xamp ou Mysql Server esteja sendo executado corretamente*
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Após configurarmos o nosso ambiente e instalar as dependencias necessarias,iremos gerar o nosso banco de dados com o comando `php artisan migrate`
 
-## Laravel Sponsors
+Agora iremos executar a nossa aplicação com o comando `php artisan serve`.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+ele irá mostrar o link de onde sua aplicação estará rodando.Sendo o mais comum: [http://127.0.0.1:8000].
 
-### Premium Partners
+#### *DICA: é possivel acessar tambem clicando com CRTL + botão direito do mouse em cima do link que aparece no CMD*
+<br>
+<br>
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
 
-## Contributing
+# FUNCIONALIDADES
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### USUÁRIOS
+* Cadastro de usuários  
+* Edição de usuários  
+* Troca de senha  
+* Login  
+* Logout  
 
-## Code of Conduct
+#### *OBS: a senha do usuário é criptografada com o algoritmo BCrypt.*
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+### INVENTÁRIO
+* Cadastro de itens no inventário  
+* Exclusão de itens do inventário  
+* Busca de itens no inventário  
+* Entrada e baixa de itens  
+* Conversão de unidade de compra para unidade de saída  
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### * OBS: o inventário contém paginação de itens.<br>  *
+Também apresenta alerta caso o item atinja a quantidade mínima no estoque.*
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### RECEITAS
+* Cadastro de receitas  
+* Edição de receitas  
+* Exclusão de receitas  
+* Exibição de informações por meio de modal  
+
+#### *OBS: as receitas estão vinculadas ao inventário, portanto é necessário cadastrar previamente os itens no inventário!*
+
+
+### ENCOMENDAS
+* Cadastro de encomendas  
+* Exclusão de encomendas  
+* Filtro de encomendas por status, data inicial e data final  
+* Gerenciamento de status  
+* Quando o status estiver em andamento, será realizada a baixa automática no inventário  
+
+#### *OBS: para utilizar corretamente a funcionalidade de encomendas, é necessário cadastrar previamente as receitas.*<br>  
+*Os valores são importados e calculados a partir dos registros da tela de receitas.  
+É possível incluir mais de uma receita em uma mesma encomenda.*
+
+
+### CALENDÁRIO
+#### A tela será utilizada especialmente para o controle das encomendas no dia a dia, listando todos os dias que possuem encomendas registradas, em vermelho, com seus respectivos status e valores.  
+
+*OBS: o calendário mostra a data atual em laranja.*  
