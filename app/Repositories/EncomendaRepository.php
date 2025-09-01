@@ -41,7 +41,9 @@ class EncomendaRepository
 
     public function getEntregasByDate($ano, $mes, $dia)
     {
-        $encomendas = Encomenda::whereDate('data', "$ano-$mes-$dia")->get();
+        $encomendas = Encomenda::whereDate('data', "$ano-$mes-$dia")
+            ->where('status', '!=', 'finalizado') // 🔹 ignora entregas finalizadas
+            ->get();
 
         return $encomendas->map(function ($encomenda) {
             $receitaIds = explode(',', $encomenda->receita);
@@ -69,15 +71,17 @@ class EncomendaRepository
         });
     }
 
+
     public function getDiasComEntrega($ano, $mes)
     {
         $dias = Encomenda::whereMonth('data', $mes)
             ->whereYear('data', $ano)
+            ->where('status', '!=', 'finalizado')
             ->pluck('data');
 
         return $dias->map(fn($data) => (int) date('j', strtotime($data)))
-                    ->unique()
-                    ->values();
+            ->unique()
+            ->values();
     }
 
 
