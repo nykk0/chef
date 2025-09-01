@@ -17,9 +17,9 @@ class UserService
 
     public function register(array $data): User
     {
-        $data['password'] = Hash::make($data['password']);
-        return $this->userRepository->create($data);
+        return User::create($data);
     }
+
 
     public function update(User $user, array $data): User
     {

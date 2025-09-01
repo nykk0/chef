@@ -37,11 +37,24 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|string|email|max:255|unique:users',
-            'phone'    => 'required|string|max:15',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'phone' => 'required|string|max:15',
             'username' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'O campo Nome Completo é obrigatório.',
+            'name.max' => 'O campo Nome Completo deve ter no máximo 255 caracteres.',
+            'email.required' => 'O campo Email é obrigatório.',
+            'email.email' => 'O Email deve ser válido.',
+            'email.unique' => 'Este Email já está em uso.',
+            'phone.required' => 'O campo Telefone é obrigatório.',
+            'phone.max' => 'O campo Telefone deve ter no máximo 15 caracteres.',
+            'username.required' => 'O campo Nome de Usuário é obrigatório.',
+            'username.unique' => 'Este Nome de Usuário já está em uso.',
+            'password.required' => 'O campo Senha é obrigatório.',
+            'password.min' => 'A Senha deve ter no mínimo 8 caracteres.',
+            'password.confirmed' => 'A confirmação da Senha não confere.',
         ]);
 
         if ($validator->fails()) {
@@ -52,6 +65,7 @@ class RegisterController extends Controller
 
         return redirect()->route('login')->with('success', 'Cadastro realizado com sucesso!');
     }
+
 
     public function updateUser(Request $request)
     {
@@ -79,18 +93,24 @@ class RegisterController extends Controller
         return redirect()->route('alter_user')->with('success', 'Dados atualizados com sucesso!');
     }
 
-    public function login(Request $request)
-    {
+     public function login(Request $request){
         $request->validate([
-            'email'    => 'required|string|email',
+            'email' => 'required|string|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'O Email é obrigatorio.',
+            'password.required' => 'O campo Senha é obrigatório.',
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return redirect()->route('login')->withErrors(['error' => "Email ou senha inválidos!"]);
+        $credentials = $request->only('email','password');
+        $auth = Auth::attempt(['email'=> $request->email,'password'=> $request->password]);
+
+        if(!$auth){
+           return redirect()->route('login')->withErrors(['error' => "Email ou senha inválidos!"]);
+        }else{
+            return redirect()->route("receita")->with("success","Logado com Sucesso!");
         }
 
-        return redirect()->route("receita")->with("success", "Logado com Sucesso!");
     }
 
     public function logout(Request $request)
