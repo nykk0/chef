@@ -7,6 +7,7 @@ use App\Repositories\ReceitaRepository;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Models\Encomenda;
+use App\Models\Inventario;
 
 class EncomendaService
 {
@@ -91,6 +92,37 @@ class EncomendaService
         }
 
         $encomenda = $this->encomendaRepository->findById($id);
+
+        // Se for confirmar, baixa no estoque
+        if ($status === 'confirmado' && $encomenda->status !== 'confirmado') {
+            $receitaIds = explode(',', $encomenda->receita);       // IDs das receitas na encomenda
+            $quantidadesEncomenda = explode(',', $encomenda->quantidade); // quantidade de cada receita
+
+            foreach ($receitaIds as $index => $receitaId) {
+                $quantidadeReceita = $quantidadesEncomenda[$index] ?? 1;
+                $receita = $this->receitaRepository->findById($receitaId);
+
+                if (!$receita) continue;
+
+                $ingredientesIds = explode(',', $receita->ingredientes_ids);
+                $ingredientesQtds = explode(',', $receita->ingredientes_qtds);
+
+                foreach ($ingredientesIds as $i => $ingredienteId) {
+                    $qtdPorReceita = $ingredientesQtds[$i] ?? 0;
+
+                    // Quantidade total a subtrair do inventário
+                    $quantidadeTotal = $qtdPorReceita * $quantidadeReceita;
+
+                    $inventario = Inventario::find($ingredienteId);
+                    if ($inventario) {
+                        $inventario->quantidade -= $quantidadeTotal;
+                        if ($inventario->quantidade < 0) $inventario->quantidade = 0;
+                        $inventario->save();
+                    }
+                }
+            }
+        }
+
         $encomenda->status = $status;
         $encomenda->save();
 

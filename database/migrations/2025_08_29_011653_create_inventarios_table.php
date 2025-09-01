@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\DB;
 return new class extends Migration {
     public function up(): void
     {
-        // Inserir itens na mão
         DB::table('inventarios')->insert([
-            // Bolo de Chocolate
             [
                 'nome' => 'Farinha de Trigo',
                 'categoria' => 'Ingrediente',
@@ -68,58 +66,6 @@ return new class extends Migration {
                 'quantidade_minima' => 100,
                 'unidade_compra' => 'kg',
                 'unidade_saida' => 'g',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            // Bolo de Limão
-            [
-                'nome' => 'Farinha de Trigo',
-                'categoria' => 'Ingrediente',
-                'quantidade' => 3000, // 3 kg -> g
-                'quantidade_minima' => 1000,
-                'unidade_compra' => 'kg',
-                'unidade_saida' => 'g',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nome' => 'Açúcar',
-                'categoria' => 'Ingrediente',
-                'quantidade' => 2000, // 2 kg -> g
-                'quantidade_minima' => 500,
-                'unidade_compra' => 'kg',
-                'unidade_saida' => 'g',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nome' => 'Manteiga',
-                'categoria' => 'Ingrediente',
-                'quantidade' => 500, // 0,5 kg -> g
-                'quantidade_minima' => 100,
-                'unidade_compra' => 'kg',
-                'unidade_saida' => 'g',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nome' => 'Ovos',
-                'categoria' => 'Ingrediente',
-                'quantidade' => 30,
-                'quantidade_minima' => 10,
-                'unidade_compra' => 'unidade',
-                'unidade_saida' => 'unidade',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nome' => 'Leite',
-                'categoria' => 'Ingrediente',
-                'quantidade' => 1500, // 1,5 L -> mL
-                'quantidade_minima' => 500,
-                'unidade_compra' => 'l',
-                'unidade_saida' => 'ml',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
