@@ -18,11 +18,7 @@
         </button>
 
         <!-- Logo -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24"
-            stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 6c-2.21 0-4 1.79-4 4v1H7v2h2v5h6v-5h2v-2h-1v-1c0-2.21-1.79-4-4-4z" />
-        </svg>
+       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600 lucide lucide-chef-hat h-8 w-8 text-primary" data-lov-id="src/components/NavBar.tsx:21:14" data-lov-name="ChefHat" data-component-path="src/components/NavBar.tsx" data-component-line="21" data-component-file="NavBar.tsx" data-component-name="ChefHat" data-component-content="%7B%22className%22%3A%22h-8%20w-8%20text-primary%22%7D"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z"></path><path d="M6 17h12"></path></svg>
         <span class="text-xl font-bold text-red-600">CHEF</span>
     </div>
 
@@ -30,6 +26,7 @@
     <div class="relative inline-block text-left">
         <button id="userMenuButton" class="font-semibold text-gray-800 cursor-pointer">
             Olá, {{$user->username}}
+            <i class="fa-solid fa-caret-down"></i>
         </button>
         <div id="userSubmenu"
             class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-md shadow-lg z-10">
