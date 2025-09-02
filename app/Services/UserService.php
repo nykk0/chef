@@ -24,7 +24,7 @@ class UserService
     public function update(User $user, array $data): User
     {
         if (!empty($data['nova_senha'])) {
-            $data['password'] = Hash::make($data['nova_senha']);
+            $data['password'] = $data['nova_senha'];
         }
 
         unset($data['nova_senha'], $data['senha_atual'], $data['confirmar_senha']);
