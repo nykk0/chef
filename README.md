@@ -40,14 +40,14 @@ ele irá mostrar o link de onde sua aplicação estará rodando.Sendo o mais com
 
 # FUNCIONALIDADES
 
-### USUÁRIOS
+### USUÁRIOS 
 * Cadastro de usuários  
 * Edição de usuários  
 * Troca de senha  
 * Login  
 * Logout  
 
-#### *OBS: a senha do usuário é criptografada com o algoritmo BCrypt.*
+#### *OBS: a senha do usuário é criptografada com o algoritmo BCrypt. (Tudo gerenciavel no menu de configurações)*
 
 
 ### INVENTÁRIO
